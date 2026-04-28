@@ -13,8 +13,14 @@ const options: swaggerJsdoc.Options = {
         },
         servers: [
             {
-                url: `http://localhost:${process.env.PORT || 3000}`,
-                description: "Local development server",
+                // url: `http://localhost:${process.env.PORT || 3000}`,
+                // description: "Local development server",
+            url: process.env.NODE_ENV === "production"
+                ? `http://${process.env.SERVER_HOST || "107.20.86.22"}:${process.env.PORT}`
+                : `http://localhost:${process.env.PORT}`,
+            description: process.env.NODE_ENV === "production"
+                ? "Production server"
+                : "Local development server",
             },
         ],
         tags: [
