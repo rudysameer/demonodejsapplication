@@ -142,3 +142,25 @@ jobs:
       - name: Cleanup
         if: always()
         run: rm -f ~/.ssh/deploy_key
+
+  discord_notification:
+    name: Notify Discord
+    needs: deploy
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment_name }}
+    if: always()
+    steps:
+      - name: Send Discord Notification
+        run: |
+          STATUS="${{ needs.deploy.result }}"
+
+          if [ "$STATUS" = "success" ]; then
+            MESSAGE="✅ Deployment Successful!"
+          else
+            MESSAGE="❌ Deployment Failed!"
+          fi
+
+          curl -H "Content-Type: application/json" \
+            -X POST \
+            -d "{\"content\": \"${MESSAGE}\n\n 🌍 Environment: ${{ inputs.environment_name }}.\n\n 📦 Repository: ${{ github.repository }}.\n\n 🌿 Workflow: ${{ github.workflow }}.\n\n 🌿 Branch: ${{ github.ref_name }} \n\n 👤 Triggered-BY: ${{ github.actor }} \n\n Run ID: ${{ github.run_id }}\"}" \
+            ${{ secrets.DISCORD_WEBHOOK }}
