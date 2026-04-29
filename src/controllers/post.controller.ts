@@ -14,6 +14,7 @@ export const getAllPosts = async (_req: Request, res: Response): Promise<void> =
         });
         sendSuccess(res, posts, "Posts fetched successfully");
     } catch (err) {
+        console.error("Error in getAllPosts:", err);
         sendError(res, "Failed to fetch posts");
     }
 };
@@ -31,6 +32,7 @@ export const getPostById = async (req: Request, res: Response): Promise<void> =>
         }
         sendSuccess(res, post, "Post fetched successfully");
     } catch (err) {
+        console.error("Error in getPostById", err);
         sendError(res, "Failed to fetch post");
     }
 };
@@ -45,6 +47,7 @@ export const createPost = async (req: Request, res: Response): Promise<void> => 
         };
 
         if (!title || !body) {
+
             sendError(res, "title and body are required", 400);
             return;
         }
@@ -53,6 +56,7 @@ export const createPost = async (req: Request, res: Response): Promise<void> => 
         await postRepo().save(post);
         sendSuccess(res, post, "Post created successfully", 201);
     } catch (err) {
+        console.error("Error in createPosts:", err);
         sendError(res, "Failed to create post");
     }
 };
@@ -70,6 +74,7 @@ export const deletePost = async (req: Request, res: Response): Promise<void> => 
         await postRepo().remove(post);
         sendSuccess(res, null, "Post deleted successfully");
     } catch (err) {
+        console.error("Error in deleteposts:", err);
         sendError(res, "Failed to delete post");
     }
 };

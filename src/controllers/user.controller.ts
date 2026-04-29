@@ -13,6 +13,7 @@ export const getAllUsers = async (_req: Request, res: Response): Promise<void> =
         });
         sendSuccess(res, users, "Users fetched successfully");
     } catch (err) {
+        console.error("Error in getAllUsers:", err);
         sendError(res, "Failed to fetch users");
     }
 };
@@ -30,6 +31,7 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
         }
         sendSuccess(res, user, "User fetched successfully");
     } catch (err) {
+        console.error("Error in getUserById:", err);
         sendError(res, "Failed to fetch user");
     }
 };
@@ -64,6 +66,7 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
             201
         );
     } catch (err) {
+        console.error("Error in createUser:", err);
         sendError(res, "Failed to create user");
     }
 };
@@ -81,6 +84,7 @@ export const deleteUser = async (req: Request, res: Response): Promise<void> => 
         await userRepo().remove(user);
         sendSuccess(res, null, "User deleted successfully");
     } catch (err) {
+        console.error("Error in deleteUser:", err);
         sendError(res, "Failed to delete user");
     }
 };
